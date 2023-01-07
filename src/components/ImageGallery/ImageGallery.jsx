@@ -1,18 +1,27 @@
-import css from "./ImageGallery.module.css"
+import PropTypes from 'prop-types';
 
-const ImageGallery = ({ Children, photos,handleShowModal }) => {
-    return (
-        <ul onClick={handleShowModal} className={css.ImageGallery}>
-            {photos.map((item) => { return (
-              <Children
-                key={item.id}
-                alt={item.tags}
-                src={item.webformatURL}
-                largeFormat={item.largeImageURL}
-              />
-            );})}
-        </ul>
-    )
-}
+import css from './ImageGallery.module.css';
+import ImageGalleryItem from 'components/ImageGalleryItem/ImageGalleryItem';
 
-export default ImageGallery
+const ImageGallery = ({ photos, handleShowModal }) => {
+  return (
+    <ul onClick={handleShowModal} className={css.ImageGallery}>
+      {photos.map(item => {
+        
+        return (
+          <ImageGalleryItem
+            key={item.id}
+            alt={item.tags}
+            src={item.webformatURL}
+            largeFormat={item.largeImageURL}
+          />
+        );
+      })}
+    </ul>
+  );
+};
+ImageGallery.propTypes = {
+  photos: PropTypes.arrayOf(PropTypes.object),
+  handleShowModal: PropTypes.func,
+};
+export default ImageGallery;

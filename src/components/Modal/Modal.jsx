@@ -1,5 +1,6 @@
-import { Component } from 'react';
+import PropTypes from 'prop-types';
 
+import { Component } from 'react';
 import css from './Modal.module.css';
 
 class Modal extends Component {
@@ -9,10 +10,8 @@ class Modal extends Component {
       window.removeEventListener('keydown', this.handleCheckKey);
     }
   };
-  handleCheckClick = e => {
-    if (e.target.nodeName !== 'IMG') {
-      this.props.closeModal();
-    }
+  handleCheckClick = () => {
+    this.props.closeModal();
   };
 
   componentDidMount() {
@@ -29,5 +28,12 @@ class Modal extends Component {
     );
   }
 }
+Modal.propTypes = {
+  closeModal: PropTypes.func,
+  photoUrl: PropTypes.shape({
+    url: PropTypes.string,
+    alt: PropTypes.string,
+  }),
+};
 
 export default Modal;

@@ -6,7 +6,6 @@ import css from '../style/styles.module.css';
 
 import Searchbar from './Searchbar/Searchbar';
 import ImageGallery from './ImageGallery/ImageGallery';
-import ImageGalleryItem from './ImageGalleryItem/ImageGalleryItem';
 import Button from './Button/Button';
 import Loader from './Loader/Loader';
 import Modal from './Modal/Modal';
@@ -26,7 +25,7 @@ export class App extends Component {
     const photos = await fetchPhoto(searchWord, page);
 
     if (prevState.searchWord !== searchWord) {
-      this.setState({ photos: photos });
+      this.setState({ photos });
     }
   }
 
@@ -37,28 +36,19 @@ export class App extends Component {
     this.setState({
       searchWord,
     });
-    setTimeout(() => {
-      this.setState({ isLoading: false });
-    }, 600);
+    this.setState({ isLoading: false });
   };
 
   loadMore = () => {
     this.setState({ isLoading: true });
-    this.setState(
-      {
-        page: this.state.page + 1,
-      },
-      async () => {
-        const { searchWord, page, photos } = this.state;
-        const morePhoto = await fetchPhoto(searchWord, page);
-        this.setState({ photos: photos.concat(morePhoto) });
-      }
-    );
-
-    setTimeout(() => {
-      this.setState({ isLoading: false });
-    }, 500);
+    this.setState({ page: this.state.page + 1 }, async () => {
+      const { searchWord, page, photos } = this.state;
+      const morePhoto = await fetchPhoto(searchWord, page);
+      this.setState({ photos: photos.concat(morePhoto) });
+    });
+    this.setState({ isLoading: false });
   };
+
   showModal = e => {
     if (e.target.nodeName === 'IMG') {
       this.setState({
@@ -83,7 +73,6 @@ export class App extends Component {
         <Searchbar onSubmit={this.searchWord} />
         <ImageGallery
           photos={this.state.photos}
-          Children={ImageGalleryItem}
           handleShowModal={this.showModal}
         ></ImageGallery>
         {photos.length && <Button loadMore={this.loadMore} />}
