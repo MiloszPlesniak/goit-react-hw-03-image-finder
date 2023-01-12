@@ -4,10 +4,10 @@ import css from './ImageGallery.module.css';
 import ImageGalleryItem from 'components/ImageGalleryItem/ImageGalleryItem';
 
 const ImageGallery = ({ photos, handleShowModal }) => {
+  console.log(photos);
   return (
     <ul onClick={handleShowModal} className={css.ImageGallery}>
       {photos.map(item => {
-        
         return (
           <ImageGalleryItem
             key={item.id}
@@ -21,7 +21,11 @@ const ImageGallery = ({ photos, handleShowModal }) => {
   );
 };
 ImageGallery.propTypes = {
-  photos: PropTypes.arrayOf(PropTypes.object),
+  photos: PropTypes.arrayOf(
+    PropTypes.objectOf(
+      PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+    )
+  ).isRequired,
   handleShowModal: PropTypes.func,
 };
 export default ImageGallery;
