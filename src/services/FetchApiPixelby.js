@@ -19,7 +19,7 @@ export const fetchPhoto = async (searchWord, page) => {
 
         }
     })
-    console.log(response.data.totalHits);
+    
     if ((response.data.totalHits === 0)) {
         Notify.failure("No photos found")
         return []
